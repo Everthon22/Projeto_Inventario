@@ -1,0 +1,1 @@
+[{"name":"Espada Mestre","image":"assets1\/img1\/espada_mestre.jpg","desc":"Uma l\u00e2mina lend\u00e1ria capaz de repelir o mal.","quantidade":1},{"name":"Flecha","image":"https:\/\/encrypted-tbn0.gstatic.com\/images?q=tbn:ANd9GcSFd3cmBMBSJx-rg3KReOxIJ0O4LxYSnWO7_Q&s","desc":"Descri\u00e7\u00e3o n\u00e3o dispon\u00edvel.","quantidade":1}]
