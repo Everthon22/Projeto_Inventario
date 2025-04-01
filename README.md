@@ -8,9 +8,11 @@ O objetivo desta atividade é desenvolver um sistema de inventário funcional pa
 aprimorar a experiência do usuário ao organizar e armazenar itens coletados durante o jogo.
 
 
+
 O que é um inventário de um jogo?
 
 Um inventário de jogo é uma funcionalidade que permite ao jogador armazenar, visualizar e utilizar itens durante a jogabilidade. Ele pode conter armas, poções, equipamentos e outros objetos relevantes para a progressão no jogo.
+
 
 
 Quais sistemas utilizam a funcionalidade?
@@ -24,9 +26,11 @@ Minecraft (itens coletáveis e utilizáveis)
 RPGs como Skyrim e The Witcher (organização de itens, equipamentos e materiais de crafting)
 
 
+
 Por que essa funcionalidade é importante?
 
 O inventário é essencial para melhorar a interação do jogador com o jogo, facilitando a gestão de recursos, organização de equipamentos e tomada de decisões estratégicas.
+
 
 
 
@@ -44,9 +48,11 @@ Bootstrap: Framework CSS para responsividade e design moderno.
 
 
 
+
 Como o layout foi feito? (linha x colunas)
 
 O layout do inventário foi projetado em formato de grid responsivo, utilizando flexbox e grid CSS, para exibir os itens lado a lado em uma organização de colunas dinâmica.
+
 
 
 
@@ -57,6 +63,7 @@ Quais ferramentas/linguagens/frameworks foram utilizados?
 PHP: Para a manipulação dos dados do inventário e controle de sessão do usuário.
 
 JSON (arquivo inventario.txt): Para armazenar e recuperar os itens do inventário.
+
 
 
 
@@ -75,6 +82,8 @@ Utiliza sessão PHP para controlar o acesso ao inventário.
 
 
 
+
+
 inventario.php
 
 Exibe os itens armazenados no inventário.
@@ -84,6 +93,8 @@ Verifica se o usuário está logado antes de permitir o acesso.
 Carrega os itens do arquivo JSON inventario.txt e os exibe em um grid responsivo.
 
 ![Inventario print](https://github.com/user-attachments/assets/1e32bbd3-aa34-4597-b39c-760048541634)
+
+
 
 
 
@@ -100,6 +111,8 @@ Salva os itens no arquivo inventario.txt.
 
 
 
+
+
 config.php
 
 Define credenciais de login e o caminho do arquivo JSON.
@@ -107,6 +120,8 @@ Define credenciais de login e o caminho do arquivo JSON.
 Contém a função verificarLogin() para autenticação de usuários.
 
 ![Config](https://github.com/user-attachments/assets/4764699b-b859-4648-94fb-2266556c2383)
+
+
 
 
 
