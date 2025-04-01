@@ -129,24 +129,43 @@ Navegar até a página do inventário e gerenciar os itens.
 Hierarquia de Diretórios do Projeto
 
 PROJETO-ZELDA-INVENTARIO/
+
 │── assets/
+
 │   ├── css/
+
 │   │   ├── style.css
+
 │
+
 │── assets1/
+
 │   ├── css1/
+
 │   │   ├── style1.css
+
 │
+
 │── img1/
+
 │   ├── escudo.jpeg
+
 │   ├── espada_mestre.jpg
+
 │   ├── porcao.png
+
 │
+
 │── cadastro.php
+
 │── config.php
+
 │── inventario.php
+
 │── inventario.txt
+
 │── login.php
+
 
 Explicação
 
