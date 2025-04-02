@@ -9,13 +9,13 @@ aprimorar a experiência do usuário ao organizar e armazenar itens coletados du
 
 
 
-O que é um inventário de um jogo?
+## O que é um inventário de um jogo?
 
 Um inventário de jogo é uma funcionalidade que permite ao jogador armazenar, visualizar e utilizar itens durante a jogabilidade. Ele pode conter armas, poções, equipamentos e outros objetos relevantes para a progressão no jogo.
 
 
 
-Quais sistemas utilizam a funcionalidade?
+## Quais sistemas utilizam a funcionalidade?
 
 Vários jogos utilizam sistemas de inventário, incluindo:
 
@@ -27,14 +27,14 @@ RPGs como Skyrim e The Witcher (organização de itens, equipamentos e materiais
 
 
 
-Por que essa funcionalidade é importante?
+## Por que essa funcionalidade é importante?
 
 O inventário é essencial para melhorar a interação do jogador com o jogo, facilitando a gestão de recursos, organização de equipamentos e tomada de decisões estratégicas.
 
 
 
 
-Implementação
+## Implementação
 
 Front-End
 
@@ -49,14 +49,14 @@ Bootstrap: Framework CSS para responsividade e design moderno.
 
 
 
-Como o layout foi feito? (linha x colunas)
+## Como o layout foi feito? (linha x colunas)
 
 O layout do inventário foi projetado em formato de grid responsivo, utilizando flexbox e grid CSS, para exibir os itens lado a lado em uma organização de colunas dinâmica.
 
 
 
 
-Back-End
+## Back-End
 
 Quais ferramentas/linguagens/frameworks foram utilizados?
 
@@ -67,7 +67,7 @@ JSON (arquivo inventario.txt): Para armazenar e recuperar os itens do inventári
 
 
 
-Código PHP
+## Código PHP
 
 O que o código faz? (Explicar as principais funcionalidades)
 
@@ -84,7 +84,7 @@ Utiliza sessão PHP para controlar o acesso ao inventário.
 
 
 
-inventario.php
+## inventario.php
 
 Exibe os itens armazenados no inventário.
 
@@ -99,7 +99,7 @@ Carrega os itens do arquivo JSON inventario.txt e os exibe em um grid responsivo
 
 
 
-cadastro.php
+## cadastro.php
 
 Permite adicionar novos itens ao inventário.
 
@@ -113,7 +113,7 @@ Salva os itens no arquivo inventario.txt.
 
 
 
-config.php
+## config.php
 
 Define credenciais de login e o caminho do arquivo JSON.
 
@@ -125,7 +125,7 @@ Contém a função verificarLogin() para autenticação de usuários.
 
 
 
-Passo-a-Passo para Executar o Sistema
+## Passo-a-Passo para Executar o Sistema
 
 Abrir um servidor local (como XAMPP ou WAMP).
 
@@ -141,7 +141,7 @@ Navegar até a página do inventário e gerenciar os itens.
 
 
 
-Hierarquia de Diretórios do Projeto
+## Hierarquia de Diretórios do Projeto
 
 PROJETO-ZELDA-INVENTARIO/
 
@@ -182,7 +182,7 @@ PROJETO-ZELDA-INVENTARIO/
 │── login.php
 
 
-Explicação
+## Explicação
 
 assets/css/: Contém arquivos de estilização geral.
 
