@@ -1,6 +1,6 @@
 # Projeto_Inventario
 
-Introdução
+## Introdução
 
 Qual o objetivo da atividade?
 
