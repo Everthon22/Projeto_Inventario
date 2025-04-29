@@ -6,8 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'] ?? '';
     $senha = $_POST['senha'] ?? '';
 
-    // Autenticação com usuário e senha corretos
-    if ($usuario === 'Everthon' && $senha === 'Vocenaosabe') { 
+    if ($usuario === USUARIO && $senha === SENHA) {
         $_SESSION['logado'] = true;
         header('Location: inventario.php');
         exit();

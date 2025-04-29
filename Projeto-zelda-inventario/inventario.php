@@ -2,57 +2,25 @@
 session_start();
 require 'config.php';
 
+// Verificar se o usuário está logado
 if (!isset($_SESSION['logado'])) {
     header('Location: login.php');
     exit();
 }
 
-// Lista de itens fixos com imagens locais
-$item_data = [
-    "Espada Mestre" => [
-        "desc" => "Uma lâmina lendária capaz de repelir o mal.",
-        "img" => "assets1/img1/espada_mestre.jpg"
-    ],
-    "Escudo Hyliano" => [
-        "desc" => "Um escudo resistente com o emblema de Hyrule.",
-        "img" => "assets1/img1/escudo.jpeg"
-    ],
-    "Poção de Vida" => [
-        "desc" => "Restaura totalmente sua saúde.",
-        "img" => "assets1/img1/porcao.png"
-    ]
-];
-
-// Carregar inventário salvo
-$itens = file_exists(INVENTARIO_ARQUIVO) ? json_decode(file_get_contents(INVENTARIO_ARQUIVO), true) : [];
-
-// Criar um array associativo para evitar duplicatas
-$inventario_assoc = [];
-foreach ($itens as $item) {
-    $inventario_assoc[$item['name']] = $item;
-}
-
-// Garantir que os itens fixos estejam no inventário sem duplicação
-foreach ($item_data as $nome => $info) {
-    if (!isset($inventario_assoc[$nome])) {
-        $inventario_assoc[$nome] = [
-            "name" => $nome,
-            "image" => $info['img'],
-            "desc" => $info['desc'],
-            "quantidade" => 1
-        ];
-    }
-}
-
-// Converter de volta para lista de itens
-$itens = array_values($inventario_assoc);
-
-// Responder com JSON para AJAX
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['json'])) {
-    header('Content-Type: application/json');
-    echo json_encode($itens);
+// Conexão com o banco de dados
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=inventario', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Erro de conexão: " . $e->getMessage();
     exit();
 }
+
+// Recuperar itens do banco
+$query = "SELECT * FROM item";
+$stmt = $pdo->query($query);
+$itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -115,11 +83,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['json'])) {
             border-radius: 5px;
             font-size: 14px;
         }
-        .inventory-title {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+
+        /* Novo estilo para o botão de excluir */
+        .btn-excluir {
+            font-size: 12px; /* Tamanho menor */
+            padding: 5px 10px; /* Botão menor */
+            background-color: transparent; /* Fundo transparente */
+            border: 1px solid #dc3545; /* Cor da borda */
+            color: #dc3545; /* Cor do texto (vermelho) */
+            border-radius: 5px; /* Borda arredondada */
+        }
+
+        .btn-excluir:hover {
+            background-color: rgba(220, 53, 69, 0.1); /* Cor de fundo ao passar o mouse */
+            color: #fff; /* Cor do texto ao passar o mouse */
         }
     </style>
 </head>
@@ -130,8 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['json'])) {
             <div class="inventory-grid">
                 <?php foreach ($itens as $item) { ?>
                     <div class="inventory-item">
-                        <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="Item" class="item-image">
-                        <span class="item-quantity"><?php echo $item['quantidade']; ?></span>
+                        <img src="<?php echo htmlspecialchars($item['img_item']); ?>" alt="Item" class="item-image">
+                        <span class="item-quantity"><?php echo $item['qtd_item']; ?></span>
+                        <form action="remover_item.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                            <button type="submit" class="btn btn-excluir">Excluir</button>
+                        </form>
                     </div>
                 <?php } ?>
             </div>
