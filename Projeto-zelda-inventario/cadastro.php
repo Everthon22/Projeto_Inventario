@@ -2,32 +2,42 @@
 session_start();
 require 'config.php';
 
+// Verificar se o usuário está logado
 if (!isset($_SESSION['logado'])) {
     header('Location: login.php');
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item'], $_POST['imagem'])) {
-    $nome_item = trim($_POST['item']);
-    $imagem_url = trim($_POST['imagem']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome_item'] ?? '';
+    $quantidade = intval($_POST['qtd_item'] ?? 1);
+    $img_url = $_POST['img_item'] ?? '';
 
-    if (!empty($nome_item)) {
-        $stmt = $pdo->prepare("SELECT * FROM item WHERE nome_item = ?");
-        $stmt->execute([$nome_item]);
-        $item = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($nome && $quantidade && $img_url) {
+        try {
+            // Verifica se já existe um item com o mesmo nome, ignorando maiúsculas/minúsculas
+            $stmt = $pdo->prepare("SELECT id, qtd_item FROM item WHERE LOWER(nome_item) = LOWER(?)");
+            $stmt->execute([$nome]);
+            $itemExistente = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($item) {
-            $pdo->prepare("UPDATE item SET qtd_item = qtd_item + 1 WHERE id = ?")->execute([$item['id']]);
-        } else {
-            $img_blob = file_get_contents($imagem_url);
-            $stmt = $pdo->prepare("INSERT INTO item (nome_item, qtd_item, img_item) VALUES (?, 1, ?)");
-            $stmt->bindParam(1, $nome_item);
-            $stmt->bindParam(2, $img_blob, PDO::PARAM_LOB);
-            $stmt->execute();
+            if ($itemExistente) {
+                // Atualizar a quantidade
+                $novaQtd = $itemExistente['qtd_item'] + $quantidade;
+                $stmt = $pdo->prepare("UPDATE item SET qtd_item = ? WHERE id = ?");
+                $stmt->execute([$novaQtd, $itemExistente['id']]);
+            } else {
+                // Inserir novo item
+                $stmt = $pdo->prepare("INSERT INTO item (nome_item, qtd_item, img_item) VALUES (?, ?, ?)");
+                $stmt->execute([$nome, $quantidade, $img_url]);
+            }
+
+            header('Location: inventario.php');
+            exit();
+        } catch (PDOException $e) {
+            echo "Erro ao cadastrar item: " . $e->getMessage();
         }
-
-        header('Location: inventario.php');
-        exit();
+    } else {
+        echo "Todos os campos são obrigatórios.";
     }
 }
 ?>
@@ -36,30 +46,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item'], $_POST['imagem
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Adicionar Item</title>
+    <title>Cadastro de Item</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: url('https://wallpapercat.com/w/full/6/3/1/904361-3840x2160-desktop-4k-legend-of-zelda-breath-of-the-wild-background-image.jpg') no-repeat center center fixed;
+            background: url('https://i.redd.it/g0upkrt886a91.gif') no-repeat center center fixed;
             background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            color: white;
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-control, .btn {
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2 class="text-center text-light">Adicionar Novo Item</h2>
-        <form method="POST" action="cadastro.php">
+    <div class="form-container">
+        <h2 class="text-center">Cadastrar Novo Item</h2>
+        <form method="POST">
             <div class="mb-3">
-                <label for="item" class="form-label text-light">Nome do Item</label>
-                <input type="text" id="item" name="item" class="form-control" required>
+                <label for="nome_item" class="form-label">Nome do Item</label>
+                <input type="text" name="nome_item" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="imagem" class="form-label text-light">URL da Imagem</label>
-                <input type="url" id="imagem" name="imagem" class="form-control" required>
+                <label for="qtd_item" class="form-label">Quantidade</label>
+                <input type="number" name="qtd_item" class="form-control" required min="1">
             </div>
-            <button type="submit" class="btn btn-primary">Adicionar</button>
-            <a href="inventario.php" class="btn btn-secondary">Ver Inventário</a>
+            <div class="mb-3">
+                <label for="img_item" class="form-label">URL da Imagem</label>
+                <input type="text" name="img_item" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
         </form>
+        <div class="text-center mt-3">
+            <a href="inventario.php" class="btn btn-light">Voltar para o Inventário</a>
+        </div>
     </div>
 </body>
 </html>

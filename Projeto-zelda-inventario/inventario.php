@@ -69,9 +69,11 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
             position: relative;
         }
         .item-image {
-            width: 70%;
-            height: auto;
+            width: 48px;
+            height: 48px;
             object-fit: contain;
+            display: block;
+            margin: 0 auto;
         }
         .item-quantity {
             position: absolute;
@@ -83,20 +85,17 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 5px;
             font-size: 14px;
         }
-
-        /* Novo estilo para o botão de excluir */
         .btn-excluir {
-            font-size: 12px; /* Tamanho menor */
-            padding: 5px 10px; /* Botão menor */
-            background-color: transparent; /* Fundo transparente */
-            border: 1px solid #dc3545; /* Cor da borda */
-            color: #dc3545; /* Cor do texto (vermelho) */
-            border-radius: 5px; /* Borda arredondada */
+            font-size: 12px;
+            padding: 5px 10px;
+            background-color: transparent;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            border-radius: 5px;
         }
-
         .btn-excluir:hover {
-            background-color: rgba(220, 53, 69, 0.1); /* Cor de fundo ao passar o mouse */
-            color: #fff; /* Cor do texto ao passar o mouse */
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #fff;
         }
     </style>
 </head>
