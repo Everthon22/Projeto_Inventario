@@ -2,13 +2,11 @@
 session_start();
 require 'config.php';
 
-// Verificar se o usuário está logado
 if (!isset($_SESSION['logado'])) {
     header('Location: login.php');
     exit();
 }
 
-// Conexão com o banco de dados
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=inventario', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -17,7 +15,6 @@ try {
     exit();
 }
 
-// Recuperar itens do banco
 $query = "SELECT * FROM item";
 $stmt = $pdo->query($query);
 $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);

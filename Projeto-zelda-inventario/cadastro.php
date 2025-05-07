@@ -2,7 +2,6 @@
 session_start();
 require 'config.php';
 
-// Verificar se o usuário está logado
 if (!isset($_SESSION['logado'])) {
     header('Location: login.php');
     exit();
@@ -15,18 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nome && $quantidade && $img_url) {
         try {
-            // Verifica se já existe um item com o mesmo nome, ignorando maiúsculas/minúsculas
             $stmt = $pdo->prepare("SELECT id, qtd_item FROM item WHERE LOWER(nome_item) = LOWER(?)");
             $stmt->execute([$nome]);
             $itemExistente = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($itemExistente) {
-                // Atualizar a quantidade
                 $novaQtd = $itemExistente['qtd_item'] + $quantidade;
                 $stmt = $pdo->prepare("UPDATE item SET qtd_item = ? WHERE id = ?");
                 $stmt->execute([$novaQtd, $itemExistente['id']]);
             } else {
-                // Inserir novo item
                 $stmt = $pdo->prepare("INSERT INTO item (nome_item, qtd_item, img_item) VALUES (?, ?, ?)");
                 $stmt->execute([$nome, $quantidade, $img_url]);
             }
