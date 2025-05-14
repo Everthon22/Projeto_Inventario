@@ -26,23 +26,30 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Inventário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets1/css1/style1.css">
     <style>
         body {
-            background: url('https://i.redd.it/g0upkrt886a91.gif');
+            background: url('https://i.redd.it/g0upkrt886a91.gif') no-repeat center center fixed;
             background-size: cover;
         }
+
         .inventory-container {
             background-color: #000;
             padding: 25px 45px;
-            min-height: 300px;
-            max-width: 450px;
+            max-width: 600px;
             margin: 50px auto;
             overflow-y: auto;
             border-radius: 10px;
             border: 3px solid #222;
             text-align: center;
+            color: white;
         }
+
+        .inventory-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
         .inventory-grid {
             display: flex;
             gap: 10px;
@@ -53,28 +60,30 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 5px;
             min-height: 150px;
         }
+
         .inventory-item {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 140px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid white;
             border-radius: 8px;
             position: relative;
+            padding: 5px;
         }
+
         .item-image {
-            width: 48px;
-            height: 48px;
+            width: 70%;
+            height: 70px;
             object-fit: contain;
-            display: block;
-            margin: 0 auto;
         }
+
         .item-quantity {
             position: absolute;
-            bottom: 5px;
+            top: 5px;
             right: 5px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -82,17 +91,43 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 5px;
             font-size: 14px;
         }
-        .btn-excluir {
-            font-size: 12px;
-            padding: 5px 10px;
-            background-color: transparent;
-            border: 1px solid #dc3545;
-            color: #dc3545;
-            border-radius: 5px;
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 6px;
         }
+
+        .button-group form {
+            display: inline-block;
+        }
+
+        .button-group .btn {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .btn-excluir {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
         .btn-excluir:hover {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #fff;
+            background-color: #b52a37;
+        }
+
+        .btn-editar {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-editar:hover {
+            background-color: #1e7e34;
         }
     </style>
 </head>
@@ -105,16 +140,22 @@ $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="inventory-item">
                         <img src="<?php echo htmlspecialchars($item['img_item']); ?>" alt="Item" class="item-image">
                         <span class="item-quantity"><?php echo $item['qtd_item']; ?></span>
-                        <form action="remover_item.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                            <button type="submit" class="btn btn-excluir">Excluir</button>
-                        </form>
+                        <div class="button-group">
+                            <form action="remover_item.php" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                <button type="submit" class="btn btn-excluir">Excluir</button>
+                            </form>
+                            <form action="editar_item.php" method="GET">
+                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                <button type="submit" class="btn btn-editar">Editar</button>
+                            </form>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
-        </div>
-        <div class="text-center mt-3">
-            <a href="cadastro.php" class="btn btn-primary">Adicionar Novo Item</a>
+            <div class="text-center mt-3">
+                <a href="cadastro.php" class="btn btn-primary">Adicionar Novo Item</a>
+            </div>
         </div>
     </div>
 </body>
